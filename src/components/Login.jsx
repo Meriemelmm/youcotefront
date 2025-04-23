@@ -7,7 +7,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
-
+ const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,7 +25,14 @@ const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setMessage("login réussie !");
+                 const token=  data.token;
+                 if(token){
+                    localStorage.setItem('authToken', token); navigate('/Home');
+                     setMessage("login réussie !");
+                     navigate('/');
+                    
+                 }
+               
             } else {
                 setError(data.message || 'Email ou mot de passe incorrect');
             }

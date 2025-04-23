@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Register.css';
 
 const Register = () => {
@@ -7,7 +7,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-
+ const navigate= useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,6 +25,16 @@ const Register = () => {
       const result = await response.json();
 
       if (response.ok) {
+        const token = result.token;  
+        
+        if (token) {
+         console.log("token",token);
+          localStorage.setItem('authToken', token);
+          setMessage("Inscription réussie ! Token stocké.");
+          navigate("/");
+      } else {
+          setMessage("Token non trouvé dans la réponse.");
+      }
         setMessage("Inscription réussie !");
         
       } else {
@@ -42,6 +52,7 @@ const Register = () => {
         <div className="signup-form">
           <h2>Créer un compte</h2>
           {message && <p className="alert" style={{ color: 'green' }}>{message}</p>}
+        
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Nom complet</label>
