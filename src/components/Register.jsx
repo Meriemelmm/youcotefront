@@ -26,10 +26,12 @@ const Register = () => {
 
       if (response.ok) {
         const token = result.token;  
+        const user = result.user;
         
         if (token) {
          console.log("token",token);
           localStorage.setItem('authToken', token);
+          localStorage.setItem('user', JSON.stringify(user));
           setMessage("Inscription réussie ! Token stocké.");
           navigate("/");
       } else {

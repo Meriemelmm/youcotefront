@@ -26,8 +26,10 @@ const Login = () => {
 
             if (response.ok) {
                  const token=  data.token;
+                 const user = data.user;
                  if(token){
-                    localStorage.setItem('authToken', token); navigate('/Home');
+                    localStorage.setItem('authToken', token); 
+                    localStorage.setItem('user', JSON.stringify(user));navigate('/Home');
                      setMessage("login réussie !");
                      navigate('/');
                     
